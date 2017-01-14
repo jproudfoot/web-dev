@@ -1,19 +1,30 @@
 import React from 'react';
+import reactCSS from 'reactcss'
+
 
 export default class Label extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {serverValue: 'Default label'}
-	}
-	
-	_onUpdateLabel(data) {
-		this.setState(serverValue: data.value);
-	}
-	
 	render() {
+		const styles = reactCSS({
+			'default': {
+				label: {
+					color: 'black'
+				}
+			},
+			'mine-true': {
+				label: {
+					color: 'gray'
+				}
+			},
+			'mine-false': {
+				label: {
+					color: 'white'
+				}
+			}
+		}, this.props);
+		
 		return (
-			<div class="my-label">
-				<h2>{this.state.serverValue}</h2>
+			<div style={ styles.label } className="label">
+				<h2>{this.props.labelValue}</h2>
 			</div>
 		)
 	}

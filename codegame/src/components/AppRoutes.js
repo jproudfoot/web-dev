@@ -1,6 +1,8 @@
 import React from 'react'
-import { Route, browserHistory } from 'react-router'
-import routes from '../routes'
+var reactRouter = require('react-router');
+var Router = reactRouter.Router;
+var browserHistory = reactRouter.browserHistory;
+var routes = require('../routes').default;
 
 export default class AppRoutes extends React.Component {
 	render() {

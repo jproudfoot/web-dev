@@ -1,9 +1,11 @@
 import path from 'path';
-import { Server } from 'http';
+var Server = require('http').Server;
 import Express from 'express';
 import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
+var renderToString = require('react-dom/server').renderToString;
+var reactRouter = require('react-router');
+var match = reactRouter.match;
+var RouterContext = reactRouter.RouterContext;
 import routes from './routes';
 import NotFoundPage from './components/NotFoundPage';
 
@@ -17,14 +19,21 @@ app.set('view engine', 'ejs');
 // define the folder that will be used for static assets
 app.use(Express.static(path.join(__dirname, 'static')));
 
+//The label value for the server
+var serverLabelValue = '';
+
 //Socket.io
 var io = require('socket.io')(server);
 io.on('connection', function (socket) {
-	console.log('user connected');
+	//Log to the console when a user connects and send the current label value
+	console.log('User connected');
+	socket.emit('init', serverLabelValue)
 	
-	socket.on('client event', function(data) {
-		console.log('recieved')
-		socket.broadcast.emit('update label', data)
+	//When the client changes the value of the input
+	socket.on('client:input', function(data) {
+		console.log('Recieved ' + data.value);
+		serverLabelValue = data.value;
+		socket.broadcast.emit('client:update-label', serverLabelValue);
 	});
 });
 

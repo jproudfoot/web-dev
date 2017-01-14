@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { browserHistory } from 'react-router'
+var browserHistory = require('react-router').browserHistory;
 
-import Routes from './routes';
+import AppRoutes from './components/AppRoutes';
 
 ReactDOM.render(
-	<Routes history={browserHistory} />,
-	document.getElementById('root')
+	<AppRoutes history={browserHistory} />, document.getElementById('root')
 );

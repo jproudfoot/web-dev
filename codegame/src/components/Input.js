@@ -1,28 +1,68 @@
 import React from 'react';
+import reactCSS from 'reactcss';
 import Label from './Label'
 
 export default class Input extends React.Component {
 	constructor(props) {
 		super(props);
 		
-		this.handleChange = this.handleChange.bind(this);
+		this.state = {labelValue: '', mine: 'false' }
+		
+		this._initialize = this._initialize.bind(this);
+		this._updateLabel = this._updateLabel.bind(this);
 	}
-
+	
+	componentDidMount() {
+		socket.on('init', this._initialize);
+		socket.on('client:update-label', this._updateLabel);
+	}
+	
+	_initialize(data) {
+		this.setState({labelValue: data});
+	}
+	
+	_updateLabel(data) {
+		this.setState({labelValue: data, mine: 'false'});
+	}
 	
 	handleChange(event) {
-		console.log('i was changed.')
-		socket.emit('client event', { value: 'hello' }); //old value: event.target.value
+		socket.emit('client:input', { value: event.target.value });
+		this.setState({labelValue: event.target.value, mine: 'true'});
 	}
 	
 	render() {
-		console.log('I rendered!');
+		const styles = reactCSS({
+			'default': {
+				input: {
+					color: 'white',
+					background: 'transparent',
+					border: 'none',
+					borderBottom: '2px solid #fff',
+					outline: 'none',
+					textAlign: 'center',
+					width: '60%',
+					fontSize: '3vw',
+					marginTop: '45vh',
+					marginLeft: '20%'
+				} 
+			},
+			'mine-true': {
+				input: {
+					color: 'gray'
+				}
+			},
+			'mine-false': {
+				input: {
+					color: 'white'
+				}
+			}
+		}, this.state);
+		
 		return (
 			<div className="input">
-				Wrong one!
 				<div className="update-label">
-					<input type="text" placeholder="Enter Text" onChange={this.handleChange.bind(this)}/>
+					<input maxLength='40' style={styles.input} type="text" value={ this.state.labelValue } onChange={this.handleChange.bind(this)}/>
 				</div>
-				<Label />
 			</div>
 		);
 	}

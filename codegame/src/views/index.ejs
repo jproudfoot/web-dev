@@ -2,13 +2,16 @@
 <html>
 	<head>
 		<title>CodeGame</title>
+		
+		<style>body{background-color: black}</style>
 	</head>
 
-	<body>
-		<script src="/socket.io/socket.io.js"></script>
-	 	<script src="/js/bundle.js"></script>
-	 
+	<body">
 	 	<div id="root"><%- markup -%></div>
+		
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="/js/main.js"></script>
+	 	<script src="/js/bundle.js"></script>
 	</body>
 	
 </html>

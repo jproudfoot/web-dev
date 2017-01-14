@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router'
+var reactRouter = require('react-router')
+var Link = reactRouter.Link;
 
 export default class NotFoundPage extends React.Component {
 	render () {
